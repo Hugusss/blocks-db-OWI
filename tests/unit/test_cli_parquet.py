@@ -5,6 +5,10 @@ import json
 import pytest
 
 from vectordb import cli
+from vectordb.implementations.blocks.initialize import BlockTooSmall
+from vectordb.indexing.planner import PlanError
+from vectordb.utils.parquet import ParquetSourceError
+from vectordb.utils.vector_tracking import CounterUnavailable
 from vectordb.utils.waiting import FunctionsTimedOut
 
 
@@ -69,10 +73,10 @@ def test_an_existing_index_ends_the_command_with_the_reason(tmp_path, monkeypatc
 
 
 @pytest.mark.parametrize("error", [
-    cli.PlanError("k (IVF lists per block) must be declared"),
-    cli.ParquetSourceError("day/metadata_0_records.parquet: no known vector dialect"),
-    cli.BlockTooSmall("block 0 kept 12 rows for 1650 IVF lists"),
-    cli.CounterUnavailable("cannot seed the id counter of 'ds' in DynamoDB"),
+    PlanError("k (IVF lists per block) must be declared"),
+    ParquetSourceError("day/metadata_0_records.parquet: no known vector dialect"),
+    BlockTooSmall("block 0 kept 12 rows for 1650 IVF lists"),
+    CounterUnavailable("cannot seed the id counter of 'ds' in DynamoDB"),
     FunctionsTimedOut("3 of 8 functions never started, and no function started or finished in the last 960 s"),
 ], ids=["plan", "source", "block", "counter", "timeout"])
 def test_a_build_that_cannot_go_on_says_why_instead_of_a_traceback(error, tmp_path, monkeypatch):

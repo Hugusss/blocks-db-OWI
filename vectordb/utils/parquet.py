@@ -40,6 +40,8 @@ import pyarrow.compute as pc
 import pyarrow.parquet as pq
 from pyarrow import fs as pafs
 
+from vectordb.errors import BlocksDBError
+
 CANONICAL = "canonical"
 OWI_V2 = "owi-v2"
 
@@ -52,7 +54,7 @@ _REQUIRED = {
 _FILESYSTEMS: dict[str, pafs.FileSystem] = {}
 
 
-class ParquetSourceError(ValueError):
+class ParquetSourceError(BlocksDBError, ValueError):
     """A source that cannot be read as vectors; the message says why."""
 
 

@@ -27,6 +27,7 @@ from .utils.index_ops import (
 
 from .utils.vector_tracking import VectorIndexTracker
 from .utils.idmap import idmap_prefix, select as select_provenance
+from .errors import BlocksDBError
 from .utils.parquet import ParquetSourceError
 from .indexing.prepare import prepare_build
 
@@ -36,22 +37,22 @@ from .serverless_vectordb import ServerlessVectorDB
 BLOCK_SIZE = 500000  # ~500KB per block for CSV blocks
 
 
-class NotAvailableOnParquet(RuntimeError):
+class NotAvailableOnParquet(BlocksDBError, RuntimeError):
     """A CSV-path feature asked of an index built from parquet."""
 
 
-class IndexExists(RuntimeError):
+class IndexExists(BlocksDBError, RuntimeError):
     """A parquet build asked for a name that already holds an index or a CSV
     dataset."""
 
 
-class NoIndex(ValueError):
+class NoIndex(BlocksDBError, ValueError):
     """A query asked for a dataset that has no index to search.
 
     It is a ValueError, so code that catches ValueError catches it too."""
 
 
-class QueryMismatch(ValueError):
+class QueryMismatch(BlocksDBError, ValueError):
     """A query the index cannot answer as it stands."""
 
 

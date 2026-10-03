@@ -95,6 +95,8 @@ A client remembers a dataset it found without a parquet index. If another client
 
 ## Errors
 
+Every exception in this table derives from `BlocksDBError` (`vectordb.errors`, also exported by `blocks_db`), so `except BlocksDBError` catches all of them. Each one is also the builtin named beside it, so code that catches that builtin keeps working. Some input mistakes on the CSV path still raise a plain `ValueError` or `FileNotFoundError`.
+
 | Exception | Module | Raised when |
 |-----------|--------|-------------|
 | `NoIndex` (a `ValueError`) | `vectordb.client` | A query or `provenance` names a dataset that has no index; a hybrid query raises it only when there are no pending vectors either |

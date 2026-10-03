@@ -8,15 +8,11 @@ from pathlib import Path
 
 import boto3
 
-from .client import IndexExists, NoIndex, NotAvailableOnParquet, QueryMismatch, VectorDBClient, build_csv_blocks_from_local
-from .implementations.blocks.initialize import BlockTooSmall
-from .indexing.planner import PlanError
+from .client import VectorDBClient, build_csv_blocks_from_local
+from .errors import BlocksDBError
 from .infra import run_setup, refresh_lithops_credentials, get_infra_config
 from .config import DEFAULT_INFRA_CONFIG
-from .utils.parquet import ParquetSourceError
 from .utils.s3_utils import is_s3express_bucket, parse_express_az
-from .utils.vector_tracking import CounterUnavailable
-from .utils.waiting import FunctionsTimedOut
 from .utils.vector_utils import load_vectors_with_ids_from_csv, load_vectors_with_ids_and_tags_from_csv, load_vectors_from_csv
 
 
@@ -33,17 +29,7 @@ def load_backend_config():
 
 # What a user can get wrong, or the cloud refuse: said as a message instead of
 # a traceback. Anything else is a bug and keeps its traceback.
-EXPECTED_ERRORS = (
-    NotAvailableOnParquet,  # a CSV-path command on a parquet index
-    IndexExists,            # a build over an index or a CSV dataset already there
-    NoIndex,                # a query on a dataset with nothing to search
-    QueryMismatch,          # a query the index cannot answer as it stands
-    PlanError,              # a plan the declared sources cannot support
-    ParquetSourceError,     # a source that cannot be read, named
-    BlockTooSmall,          # fewer rows left in a block than its IVF lists
-    CounterUnavailable,     # DynamoDB refused the id counter of a build
-    FunctionsTimedOut,      # functions that never started
-)
+EXPECTED_ERRORS = (BlocksDBError,)
 
 
 def main():

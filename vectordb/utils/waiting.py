@@ -12,11 +12,13 @@ timeout plus a minute).
 
 import time
 
+from vectordb.errors import BlocksDBError
+
 WAIT_MARGIN_SEC = 60
 POLL_SEC = 0.1
 
 
-class FunctionsTimedOut(TimeoutError):
+class FunctionsTimedOut(BlocksDBError, TimeoutError):
     """Some functions never started, and none started or finished within the
     wait window."""
 

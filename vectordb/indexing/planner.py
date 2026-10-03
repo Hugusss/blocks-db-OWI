@@ -21,10 +21,11 @@ import math
 from dataclasses import dataclass
 from typing import Sequence
 
+from vectordb.errors import BlocksDBError
 from vectordb.utils.parquet import FileInfo
 
 
-class PlanError(ValueError):
+class PlanError(BlocksDBError, ValueError):
     """A build that must not start; the message names the numbers."""
 
 

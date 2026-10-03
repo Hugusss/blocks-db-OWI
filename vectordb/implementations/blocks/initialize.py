@@ -8,10 +8,11 @@ from lithops import Storage
 import numpy as np
 
 from vectordb.implementations.blocks.indexing import FaissIVFIndex
+from vectordb.errors import BlocksDBError
 from vectordb.implementations.blocks.partitioning import BlockPartitioner
 
 
-class BlockTooSmall(ValueError):
+class BlockTooSmall(BlocksDBError, ValueError):
     """A block whose surviving rows cannot train its IVF lists."""
 
 

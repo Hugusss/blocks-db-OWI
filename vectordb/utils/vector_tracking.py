@@ -10,10 +10,11 @@ import io
 import json
 import time
 
+from ..errors import BlocksDBError
 from .s3_client import s3
 
 
-class CounterUnavailable(RuntimeError):
+class CounterUnavailable(BlocksDBError, RuntimeError):
     """The id counter of a dataset could not be written."""
 
 

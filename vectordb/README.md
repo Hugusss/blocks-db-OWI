@@ -22,6 +22,7 @@ CLI (cli.py)
 | `cli.py` | CLI entry point (`blocks-db` command) |
 | `client.py` | `VectorDBClient` — Python API for all operations |
 | `config.py` | `InfraConfig` and `SvlessVectorDBParams` dataclasses |
+| `errors.py` | `BlocksDBError` — base of the errors a user can correct |
 | `serverless_vectordb.py` | `ServerlessVectorDB` — Lithops-based index/search wrapper |
 | `benchmarks.py` | Recall calculation helpers |
 
